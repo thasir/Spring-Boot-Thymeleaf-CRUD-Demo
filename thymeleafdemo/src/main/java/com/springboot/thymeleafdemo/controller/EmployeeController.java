@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.springboot.thymeleafdemo.entity.Employee;
 import com.springboot.thymeleafdemo.service.EmployeeService;
@@ -43,5 +44,16 @@ public class EmployeeController {
 		employeeService.save(theEmployee);
 		// use a redirect to prevent the duplicate submission
 		return "redirect:/employees/list";
+	}
+
+	@GetMapping("/showFormForUpdate")
+	public String showFromForUpdate(@RequestParam("employeeId") int theId, Model theModel) {
+
+		// get the employee as a service
+		Employee theEmployee = employeeService.findById(theId);
+		// set the employee to prepopulate the form
+		theModel.addAttribute("employee", theEmployee);
+		// send over to our form
+		return "employees/employee-form";
 	}
 }
